@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Candidato;
 use App\Http\Requests\ActualizarCandidatoRequest;
 use App\Http\Requests\CandidatoRequest;
+use App\Http\Requests\TerminoRequest;
 use Illuminate\Http\Request;
 
 class CandidatosController extends Controller
@@ -59,6 +60,23 @@ class CandidatosController extends Controller
             'success' => false,
             'message' => 'Fallo de excepción CandidatosController@store'
          ], 404);
+        }
+    }
+
+    public function search(TerminoRequest $request)
+    {
+        try {
+
+            $candidatos = Candidato::orWhere('name','like' ,'%'.$request->termino.'%')->orWhere('surname','like' ,'%'.$request->termino.'%')->orWhere('phone','like','%'.$request->termino.'%')->get();
+
+            return response()->json([
+                'success' => true,
+                'data' => $candidatos
+            ], 200);
+        } catch (\Exception $exception) {
+            return response()->json([
+                'success' => false,
+                'data' => $exception], 500);
         }
     }
 

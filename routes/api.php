@@ -20,3 +20,4 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 Route::resource('candidatos', 'CandidatosController');
+Route::post('/candidatosSearch', 'CandidatosController@search')->name('candidatosSearch');
